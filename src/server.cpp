@@ -11,14 +11,16 @@ ros::Publisher publisher;
 bool getMove(glass_stepping_stones::Move::Request & req,
   glass_stepping_stones::Move::Response & res) 
   {
-  if (req.option != 'l' && req.option != 'r') 
+  if (req.option != "l" && req.option != "r") 
   {
     return false;
   }
+  char sym = req.option[0];
 
-  if (req.option == CORRECT_PATH[g_step]) 
+
+  if (sym == CORRECT_PATH[g_step]) 
   {
-    g_passed_path.insert(g_step, 1, req.option);
+    g_passed_path.insert(g_step, 1, sym);
 
     if (g_passed_path == CORRECT_PATH) 
     {
@@ -31,7 +33,7 @@ bool getMove(glass_stepping_stones::Move::Request & req,
     }
 
     std_msgs::Char chosen_option;
-    chosen_option.data = req.option;
+    chosen_option.data = sym;
 
     publisher.publish(chosen_option);
 
